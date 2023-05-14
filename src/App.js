@@ -1,7 +1,7 @@
-import "./App.css";
+import DishesForm from "./components/DishesForm";
 
 function App() {
-  return <></>;
+  return <DishesForm />;
 }
 
 export default App;
