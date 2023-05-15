@@ -9,7 +9,7 @@ function DishesForm() {
       type: "pizza",
       no_of_slices: "",
       diameter: "",
-      spiciness_scale: 1,
+      spiciness_scale: 5,
       slices_of_bread: "",
     },
   });
@@ -18,7 +18,28 @@ function DishesForm() {
   const type = watch("type");
 
   function submitHandler(data) {
-    console.log(data);
+    const { name, preparation_time, type } = data;
+    let dishDetails = {};
+
+    if (type === "pizza") {
+      const { no_of_slices, diameter } = data;
+      dishDetails = { no_of_slices, diameter };
+    } else if (type === "soup") {
+      const { spiciness_scale } = data;
+      dishDetails = { spiciness_scale };
+    } else if (type === "sandwich") {
+      const { slices_of_bread } = data;
+      dishDetails = { slices_of_bread };
+    }
+
+    const formData = {
+      name,
+      preparation_time,
+      type,
+      ...dishDetails,
+    };
+
+    console.log(formData);
   }
 
   useEffect(() => {
