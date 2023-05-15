@@ -2,7 +2,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 function DishesForm() {
-  const form = useForm();
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      preparation_time: "00:00:00",
+      type: "pizza",
+    },
+  });
   const { register, handleSubmit, formState } = form;
   const { errors } = formState;
 
@@ -29,17 +35,30 @@ function DishesForm() {
           },
         })}
       />
-      <p className="text-red-600">{errors.name?.message}</p>
+      <p className="text-red-300 font-bold">{errors.name?.message}</p>
       <label htmlFor="preparation_time">Preparation time</label>
       <input
-        type="time"
-        step="1"
+        type="text"
+        maxLength="8"
         id="preparation_time"
         {...register("preparation_time", {
           required: { value: true, message: "Preparation time is required" },
+          pattern: {
+            value: /^(?:[0-9][0-9]):(?:[0-9][0-9]):(?:[0-9][0-9])$/,
+            message:
+              "Preparation time format is invalid. It should be HH:MM:SS",
+          },
+          validate: (fieldValue) => {
+            return (
+              fieldValue !== "00:00:00" ||
+              "Preparation time cannot be set to null"
+            );
+          },
         })}
       />
-      <p className="text-red-600">{errors.preparation_time?.message}</p>
+      <p className="text-red-300 font-bold">
+        {errors.preparation_time?.message}
+      </p>
       <label htmlFor="type">Type</label>
       <select id="type" {...register("type")}>
         <option value="pizza">Pizza</option>
