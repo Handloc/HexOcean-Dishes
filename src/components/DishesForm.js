@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 function DishesForm() {
@@ -16,6 +16,36 @@ function DishesForm() {
   const { register, handleSubmit, formState, watch, reset } = form;
   const { errors, isSubmitSuccessful } = formState;
   const type = watch("type");
+  const [fetching, setFetching] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+
+  async function sendData(formData) {
+    setFetching(true);
+    try {
+      const URL =
+        "https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes";
+      const data = formData;
+      const response = await fetch(URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.status === 200) {
+        setSuccess(true);
+        setError(null);
+      } else {
+        setSuccess(false);
+        throw new Error(`Request failed with status code ${response.status}`);
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+    setFetching(false);
+  }
 
   function submitHandler(data) {
     const { name, preparation_time, type } = data;
@@ -39,7 +69,7 @@ function DishesForm() {
       ...dishDetails,
     };
 
-    console.log(formData);
+    sendData(formData);
   }
 
   useEffect(() => {
@@ -50,7 +80,7 @@ function DishesForm() {
 
   return (
     <form
-      className="w-4/5 m-auto mt-20 bg-gray-500 flex flex-col border-2 border-black p-5"
+      className="w-4/5 m-auto mt-20 bg-indigo-900 flex flex-col border-2 border-black p-5"
       onSubmit={handleSubmit(submitHandler)}
     >
       <label htmlFor="name">Name</label>
@@ -161,7 +191,13 @@ function DishesForm() {
           </p>
         </>
       )}
-      <button>Submit</button>
+      <button>{fetching ? "Submitting..." : "Submit"}</button>
+      {error && <p className="text-red-600 text-xl">{error}</p>}
+      {success && (
+        <p className="text-green-600 text-xl">
+          Form was submitted successfully
+        </p>
+      )}
     </form>
   );
 }
