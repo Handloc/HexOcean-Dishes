@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 function DishesForm() {
@@ -9,17 +9,23 @@ function DishesForm() {
       type: "pizza",
       no_of_slices: "",
       diameter: "",
-      spiciness_scale: 5,
+      spiciness_scale: 1,
       slices_of_bread: "",
     },
   });
-  const { register, handleSubmit, formState, watch } = form;
-  const { errors } = formState;
+  const { register, handleSubmit, formState, watch, reset } = form;
+  const { errors, isSubmitSuccessful } = formState;
   const type = watch("type");
 
   function submitHandler(data) {
     console.log(data);
   }
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
 
   return (
     <form
