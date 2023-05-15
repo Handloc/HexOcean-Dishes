@@ -6,7 +6,7 @@ function DishesForm() {
     defaultValues: {
       name: "",
       preparation_time: "00:00:00",
-      type: "pizza",
+      type: "",
       no_of_slices: "",
       diameter: "",
       spiciness_scale: 5,
