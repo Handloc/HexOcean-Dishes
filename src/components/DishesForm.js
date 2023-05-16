@@ -16,6 +16,7 @@ function DishesForm() {
   const { register, handleSubmit, formState, watch, reset } = form;
   const { errors, isSubmitSuccessful } = formState;
   const dish_type = watch("type");
+  const spiciness_number = watch("spiciness_scale");
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
@@ -80,13 +81,16 @@ function DishesForm() {
 
   return (
     <form
-      className="w-4/5 m-auto mt-20 bg-indigo-900 flex flex-col border-2 border-black p-5"
+      className="border-slate-800 bg-slate-700 border-2 w-4/5 md:w-2/5 lg:w-2/5 xl:w-1/5 pt-5 pb-5 rounded-xl m-auto mt-40 flex flex-col items-center "
       onSubmit={handleSubmit(submitHandler)}
     >
-      <label htmlFor="name">Name</label>
+      <label htmlFor="name" className="text-md font-bold">
+        Name
+      </label>
       <input
         type="text"
         id="name"
+        className="w-4/5 h-12 border-b-4 rounded-md focus:outline-none focus:border-b-4 focus:border-fuchsia-600 p-3 bg-slate-500 border-transparent shadow-md"
         {...register("name", {
           required: { value: true, message: "Dish name is required" },
           validate: (fieldValue) => {
@@ -97,12 +101,15 @@ function DishesForm() {
           },
         })}
       />
-      <p className="text-red-300 font-bold">{errors.name?.message}</p>
-      <label htmlFor="preparation_time">Preparation time</label>
+      <p className="text-red-500 w-4/5 text-center">{errors.name?.message}</p>
+      <label htmlFor="preparation_time" className="text-md font-bold mt-3">
+        Preparation time
+      </label>
       <input
         type="text"
         maxLength="8"
         id="preparation_time"
+        className="w-4/5 h-12 border-b-4 rounded-md focus:outline-none focus:border-b-4 focus:border-fuchsia-600 p-3 bg-slate-500 border-transparent shadow-md"
         {...register("preparation_time", {
           required: { value: true, message: "Preparation time is required" },
           pattern: {
@@ -117,12 +124,15 @@ function DishesForm() {
           },
         })}
       />
-      <p className="text-red-300 font-bold">
+      <p className="text-red-500 w-4/5 text-center">
         {errors.preparation_time?.message}
       </p>
-      <label htmlFor="type">Type</label>
+      <label htmlFor="type" className="text-md font-bold mt-3">
+        Type
+      </label>
       <select
         id="type"
+        className="w-4/5 h-12 border-b-4 rounded-md focus:outline-none focus:border-b-4 focus:border-fuchsia-600 p-3 bg-slate-500 border-transparent shadow-md"
         {...register("type", {
           required: { value: true, message: "Dish type is required" },
         })}
@@ -131,13 +141,16 @@ function DishesForm() {
         <option value="soup">Soup</option>
         <option value="sandwich">Sandwich</option>
       </select>
-      <p className="text-red-300 font-bold">{errors.type?.message}</p>
+      <p className="text-red-500 w-4/5 text-center">{errors.type?.message}</p>
       {dish_type === "pizza" && (
         <>
-          <label htmlFor="no_of_slices">Number of slices</label>
+          <label htmlFor="no_of_slices" className="text-md font-bold mt-3">
+            Number of slices
+          </label>
           <input
             type="number"
             id="no_of_slices"
+            className="w-4/5 h-12 border-b-4 rounded-md focus:outline-none focus:border-b-4 focus:border-fuchsia-600 p-3 bg-slate-500 border-transparent shadow-md"
             {...register("no_of_slices", {
               required: {
                 value: true,
@@ -145,45 +158,56 @@ function DishesForm() {
               },
             })}
           />
-          <p className="text-red-300 font-bold">
+          <p className="text-red-500 w-4/5 text-center">
             {errors.no_of_slices?.message}
           </p>
-          <label htmlFor="diameter">Diameter</label>
+          <label htmlFor="diameter" className="text-md font-bold mt-3">
+            Diameter
+          </label>
           <input
             type="number"
             step="0.01"
             id="diameter"
+            className="w-4/5 h-12 border-b-4 rounded-md focus:outline-none focus:border-b-4 focus:border-fuchsia-600 p-3 bg-slate-500 border-transparent shadow-md"
             {...register("diameter", {
               required: { value: true, message: "Diameter is required" },
             })}
           />
-          <p className="text-red-300 font-bold">{errors.diameter?.message}</p>
+          <p className="text-red-500 w-4/5 text-center">
+            {errors.diameter?.message}
+          </p>
         </>
       )}
       {dish_type === "soup" && (
         <>
-          <label htmlFor="spiciness_scale">Spiciness scale</label>
+          <label htmlFor="spiciness_scale" className="text-md font-bold mt-3">
+            {`Spiciness scale  (${spiciness_number}/10)`}
+          </label>
           <input
             type="range"
             id="spiciness_scale"
             min="1"
             max="10"
+            className="w-3/5"
             {...register("spiciness_scale", {
               required: { value: true, message: "Spiciness is required" },
             })}
           />
-          <p className="text-red-300 font-bold">
+          <p className="text-red-500 w-4/5 text-center">
             {errors.spiciness_scale?.message}
           </p>
         </>
       )}
       {dish_type === "sandwich" && (
         <>
-          <label htmlFor="slices_of_bread">Slices of bread</label>
+          <label htmlFor="slices_of_bread" className="text-md font-bold mt-3">
+            Slices of bread
+          </label>
           <input
             type="number"
             min="1"
             id="slices_of_bread"
+            className="w-4/5 h-12 border-b-4 rounded-md focus:outline-none focus:border-b-4 focus:border-fuchsia-600 p-3 bg-slate-500 border-transparent shadow-md"
             {...register("slices_of_bread", {
               required: {
                 value: true,
@@ -191,15 +215,21 @@ function DishesForm() {
               },
             })}
           />
-          <p className="text-red-300 font-bold">
+          <p className="text-red-500 w-4/5 text-center">
             {errors.slices_of_bread?.message}
           </p>
         </>
       )}
-      <button>{fetching ? "Submitting..." : "Submit"}</button>
-      {error && <p className="text-red-600 text-xl">{error}</p>}
+      <button className="w-2/5 h-12 mt-5 bg-amber-400 hover:bg-fuchsia-600 text-black text-md font-bold rounded-3xl transition duration-200 shadow-md">
+        {fetching ? "Submitting..." : "Submit"}
+      </button>
+      {error && (
+        <p className="text-red-500 font-bold text-md mt-5 bg-black p-2 bg-opacity-60 rounded-lg shadow-md">
+          {error}
+        </p>
+      )}
       {success && (
-        <p className="text-green-600 text-xl">
+        <p className="text-green-500 font-bold text-md mt-5 bg-black p-2 bg-opacity-60 rounded-lg">
           Form was submitted successfully
         </p>
       )}
