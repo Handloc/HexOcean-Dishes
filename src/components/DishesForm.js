@@ -6,7 +6,7 @@ function DishesForm() {
     defaultValues: {
       name: "",
       preparation_time: "00:00:00",
-      type: "",
+      type: null,
       no_of_slices: "",
       diameter: "",
       spiciness_scale: 5,
@@ -15,7 +15,7 @@ function DishesForm() {
   });
   const { register, handleSubmit, formState, watch, reset } = form;
   const { errors, isSubmitSuccessful } = formState;
-  const type = watch("type");
+  const dish_type = watch("type");
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
@@ -121,13 +121,18 @@ function DishesForm() {
         {errors.preparation_time?.message}
       </p>
       <label htmlFor="type">Type</label>
-      <select id="type" {...register("type")}>
+      <select
+        id="type"
+        {...register("type", {
+          required: { value: true, message: "Dish type is required" },
+        })}
+      >
         <option value="pizza">Pizza</option>
         <option value="soup">Soup</option>
         <option value="sandwich">Sandwich</option>
       </select>
-
-      {type === "pizza" && (
+      <p className="text-red-300 font-bold">{errors.type?.message}</p>
+      {dish_type === "pizza" && (
         <>
           <label htmlFor="no_of_slices">Number of slices</label>
           <input
@@ -155,7 +160,7 @@ function DishesForm() {
           <p className="text-red-300 font-bold">{errors.diameter?.message}</p>
         </>
       )}
-      {type === "soup" && (
+      {dish_type === "soup" && (
         <>
           <label htmlFor="spiciness_scale">Spiciness scale</label>
           <input
@@ -172,7 +177,7 @@ function DishesForm() {
           </p>
         </>
       )}
-      {type === "sandwich" && (
+      {dish_type === "sandwich" && (
         <>
           <label htmlFor="slices_of_bread">Slices of bread</label>
           <input
