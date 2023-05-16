@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { version } from "react";
 
 function DishesForm() {
+  console.log(version);
   const form = useForm({
     defaultValues: {
       name: "",
@@ -132,7 +134,7 @@ function DishesForm() {
       </label>
       <select
         id="type"
-        className="w-4/5 h-12 border-b-4 rounded-md focus:outline-none focus:border-b-4 focus:border-fuchsia-600 p-3 bg-slate-500 border-transparent shadow-md"
+        className="w-4/5 h-12 border-b-4 rounded-md focus:outline-none focus:border-b-4 focus:border-fuchsia-600 p-3 bg-slate-500 border-transparent shadow-md cursor-pointer"
         {...register("type", {
           required: { value: true, message: "Dish type is required" },
         })}
